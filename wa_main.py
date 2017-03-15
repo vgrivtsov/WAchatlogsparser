@@ -80,46 +80,24 @@ def new_dir(sender):
     path = ("./static/data_by_senders/%s" % (sender))
     if os.path.exists(path):    
         for (p,d,f) in os.walk(path, False):
-            [os.remove(os.path.join(p, file_name)) for file_name in f]
-            [os.rmdir(os.path.join(p,dir_name)) for dir_name in d]
+            (os.remove(os.path.join(p, file_name)) for file_name in f)
+            (os.rmdir(os.path.join(p,dir_name)) for dir_name in d)
     else:
         os.mkdir(path)
 
-def count_all_posts(data_msg_list):
+#def count_messages_per_weekday(data_msg_list):
     
-    senders_raw = []
-    count_posts = []
-    for i in data_msg_list[0]:
-        senders_raw.append(i[0])
-        
-    all_posts = Counter(senders_raw)
-    nnn = all_posts.most_common()
-    for i in nnn:  
-       sender_posts = i[0],i[1] 
-       count_posts.append(sender_posts)
-    return count_posts
- 
-def count_messages_per_weekday(data_msg_list):
-    
-    senders_days = [(i[0]+";"+i[2].strftime("%A")) for i in data_msg_list[0]]  
+    #senders_days = [(i[0]+";"+i[2].strftime("%A")) for i in data_msg_list[0]]  
  
      
-    all_days = Counter(senders_days)
-    for i in all_days:
-        print(i)
-    print(all_days)
-    nnn = all_days.most_common()
-    for i in nnn:
-        string1 = (" ".join(i[0].split(";")), str(i[1]))
-        string2 = " ".join(string1)
-   
-def csv_writer(sender, filename, data_list):
-    
-    path = ("./static/data_by_senders/%s" % (sender))
-    with open("%s/%s" % (path, filename), "w") as file_to_write:
-        wr = csv.writer(file_to_write, quoting=csv.QUOTE_ALL)
-        wr.writerows(data_list)
-    file_to_write.close()
+    #all_days = Counter(senders_days)
+    #for i in all_days:
+        #print(i)
+    #print(all_days)
+    #nnn = all_days.most_common()
+    #for i in nnn:
+        #string1 = (" ".join(i[0].split(";")), str(i[1]))
+        #string2 = " ".join(string1)
 
 #---------WORDS-STATS---------------------------------------------------
 def words_stats(sender, f_content):
@@ -196,11 +174,6 @@ def create_sender_files(message_data):
                                    word_stats_list[2],\
                                    word_stats_list[3]
 
-        #json_writer(sender,"servs_words.json", word_stats_list[0])
-        #json_writer(sender,"lenght_of_words.json", word_stats_list[1])
-        #json_writer(sender,"10_words_lenght.json", word_stats_list[2])
-        #json_writer(sender,"20_most_freq_words.json", word_stats_list[3])
-    
     return sender_mesg_data
 
 def stats_in_one(arr):
@@ -219,8 +192,6 @@ def stats_in_one(arr):
         freq[sender] = round(100*int(content[1][0])/all_symbols, 2)
         bad[sender] = int(content[1][3])
         
-        
-        
     sorted_x = sorted(trash.items(), key=operator.itemgetter(1), reverse=True)
     sorted_y = sorted(freq.items(), key=operator.itemgetter(1), reverse=True)
     sorted_z = sorted(bad.items(), key=operator.itemgetter(1), reverse=True)
@@ -229,21 +200,15 @@ def stats_in_one(arr):
    #newlist = sorted(trash, key=lambda k: k['name']) 
     return arr, all_user_data
 
-
-
-
-logname = "WP_FEBR.txt" 
+#logname = "WP_FEBR.txt" 
  
 def main(logname):
     global datafile
     datafile = "./uploads/%s" % logname
 
     return (stats_in_one(create_sender_files(extdata())))
-    
-    
+       
     #os.remove(datafile)
-   # return senders
-
           
 if __name__ == '__main__':
     import sys
