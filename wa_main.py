@@ -10,13 +10,11 @@ from itertools import cycle
 from collections import Counter
 import pymorphy2
 
-
 with open("./static/stop_words.txt", "r") as f:
      stop_words = f.read().splitlines()
 
 with open("./static/stopmat.txt", "r") as f:
      stop_mat = f.read().splitlines() 
-
 
 def extdata():
     data_msg_list = []
@@ -207,7 +205,7 @@ def main(logname):
 
     return (stats_in_one(create_sender_files(extdata())))
        
-    #os.remove(datafile)
+    os.remove(datafile)
           
 if __name__ == '__main__':
     import sys

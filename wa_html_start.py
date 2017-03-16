@@ -34,8 +34,7 @@ def main():
             return render_template('stats.html', data_dict=data_dict[0],\
                    file_status="File %s processed success" % filename,\
                    users_data=data_dict[1])
-                   
-                       
+        
         else:
             filename=file.filename
             return render_template('layout.html', file_status="File %s not TXT!" % filename)
