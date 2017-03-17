@@ -16,7 +16,7 @@ with open("./static/stop_words.txt", "r") as f:
 with open("./static/stopmat.txt", "r") as f:
      stop_mat = f.read().splitlines() 
 
-def extdata():
+def extdata(datafile):
     data_msg_list = []
     set_of_senders = set()
     service_words = ['изменил', 'добавил', 'удалил', '\n']
@@ -141,7 +141,7 @@ def words_stats(sender, f_content):
                          w_list_10, count_words[0:20] 
 
 def json_writer(sender, filename, data_list):
-    
+    # handler for datetime objects processing
     date_handler = lambda obj: (  
     obj.isoformat()
     if isinstance(obj, datetime.datetime)
@@ -188,23 +188,23 @@ def stats_in_one(arr):
         trash[sender] =  int(sum(content[0].values()))
         freq[sender] = round(100*int(content[1][0])/all_symbols, 2)
         bad[sender] = int(content[1][3])
-        
+    
+    # sorted_x - media and http's links in logs
+    # sorted y - % of content grnration by sender
+    # sorted z -% of bad words in chat(all words+all sentences)  
     sorted_x = sorted(trash.items(), key=operator.itemgetter(1), reverse=True)
     sorted_y = sorted(freq.items(), key=operator.itemgetter(1), reverse=True)
     sorted_z = sorted(bad.items(), key=operator.itemgetter(1), reverse=True)
     all_user_data = [sorted_x, sorted_y, sorted_z]     
-    #print(sorted(trash.values(), reverse=True), trash.keys())     
-   #newlist = sorted(trash, key=lambda k: k['name']) 
+
     return arr, all_user_data
 
-#logname = "WP_FEBR.txt" 
+logname = "WP_FEBR.txt" 
  
 def main(logname):
-    global datafile
-    datafile = "./uploads/%s" % logname
 
-    return (stats_in_one(create_sender_files(extdata())))
-       
+    datafile = "./uploads/%s" % logname
+    return (stats_in_one(create_sender_files(extdata(datafile))))       
     os.remove(datafile)
           
 if __name__ == '__main__':
