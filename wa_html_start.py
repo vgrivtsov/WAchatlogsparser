@@ -5,6 +5,7 @@ import sys
 import timeit
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from werkzeug import secure_filename
+from werkzeug.contrib.fixers import ProxyFix
 from wa_main import main as file_parsing
 
 
@@ -42,7 +43,10 @@ def main():
             filename=file.filename
             return render_template('layout.html', file_status="File %s not TXT!" % filename)
 
+
+    app.wsgi_app = ProxyFix(app.wsgi_app)
     app.run(debug=True)   
 
 if __name__ == '__main__':
+    
     sys.exit(main())
