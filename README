@@ -6,3 +6,6 @@ Chat log like as:
 07.12.2016, 13:21 - User1: Hello
 07.12.2016, 13:22 - User2: Whatsapp
 07.12.2016, 13:25 - User3: <Файл пропущен>
+
+For test use Docker image:
+docker pull sonicmaster/walogparser
