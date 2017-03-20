@@ -1,8 +1,6 @@
 __pycache__/
 app/static/*
 app/uploads/*
-test2.py
-test.py
-wa_main_ref.py
-test_html.py
-words_stats.py
+*.py
+.*conf
+
